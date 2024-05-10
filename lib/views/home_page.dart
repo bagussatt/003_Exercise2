@@ -36,77 +36,81 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 var kuliner = _controller.kulinerList[index];
                 return Card(
-                  margin: EdgeInsets.all(10),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EditKulinerScreen(
-                                  ListData: {
-                                    "id": kuliner.id,
-                                    "nama": kuliner.nama,
-                                    "lokasi": kuliner.lokasi,
-                                    "notelp": kuliner.notelp,
-                                    "note": kuliner.note
-                                  },
-                                )),
-                      );
-                    },
-                    child: ListTile(
-                        title: Text("Nama Kuliner: ${kuliner.nama}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 18)),
-                        subtitle: Text("Lokasi: ${kuliner.lokasi}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16)),
-                        trailing: IconButton(
-                            onPressed: () {
-                              showDialog(
+                    margin: EdgeInsets.all(10),
+                    child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditKulinerScreen(
+                                      ListData: {
+                                        "id": kuliner.id,
+                                        "nama": kuliner.nama,
+                                        "lokasi": kuliner.lokasi,
+                                        "notelp": kuliner.notelp,
+                                        "note": kuliner.note
+                                      },
+                                    )),
+                          );
+                        },
+                        child: ListTile(
+                            title: Text("Nama Kuliner: ${kuliner.nama}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)),
+                            subtitle: Text("Lokasi: ${kuliner.lokasi}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16)),
+                            trailing: IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () async {
+                                // Tampilkan dialog konfirmasi
+                                bool confirmDelete = await showDialog(
                                   context: context,
-                                  builder: ((context) {
+                                  builder: (BuildContext context) {
                                     return AlertDialog(
+                                      title: Text('Konfirmasi Penghapusan'),
                                       content: Text(
-                                          "Apakah Anda Yakin Ingin Menghapus Data Ini?"),
-                                      actions: [
-                                        ElevatedButton(
-                                            onPressed: () async {
-                                              // Misalkan Anda memiliki variabel `itemId` yang berisi ID item yang akan dihapus
-                                              bool success = await _controller
-                                                  .deleteKuliner(kuliner.nama);
-                                              Navigator.of(context)
-                                                  .pop(); // Tutup dialog setelah operasi
-                                              if (success) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                      content: Text(
-                                                          "Data berhasil dihapus")),
-                                                );
-                                                // Opsional: Segarkan data atau navigasi
-                                              } else {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                      content: Text(
-                                                          "Gagal menghapus data")),
-                                                );
-                                              }
-                                            },
-                                            child: Text("Hapus")),
-                                        SizedBox(width: 2),
-                                        ElevatedButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Text("Batal"))
+                                          'Apakah Anda yakin ingin menghapus data ini?'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Batal'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop(
+                                                false); // Tutup dialog dan kembalikan false
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: Text('Hapus'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop(
+                                                true); // Tutup dialog dan kembalikan true
+                                          },
+                                        ),
                                       ],
                                     );
-                                  }));
-                            },
-                            icon: Icon(Icons.delete))),
-                  ),
-                );
+                                  },
+                                );
+
+                                // Jika konfirmasi penghapusan diterima
+                                if (confirmDelete) {
+                                  bool success = await _controller
+                                      .deleteKuliner(kuliner.id);
+                                  if (success) {
+                                    print(kuliner.id);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            content:
+                                                Text("Data berhasil dihapus")));
+                                    // Refresh data atau update UI di sini jika diperlukan
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            content:
+                                                Text("Gagal menghapus data")));
+                                  }
+                                }
+                              },
+                            ))));
               },
             );
           } else if (snapshot.hasError) {

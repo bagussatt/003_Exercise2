@@ -28,7 +28,7 @@ class KulinerService {
   Future<bool> editKuliner(Kuliner kuliner) async {
     var uri = Uri.parse('http://192.168.100.31/kulinerdb/edit.php');
     var request = http.MultipartRequest('POST', uri)
-    ..fields['id'] = kuliner.id
+      ..fields['id'] = kuliner.id
       ..fields['nama'] = kuliner.nama
       ..fields['lokasi'] = kuliner.lokasi
       ..fields['notelp'] = kuliner.notelp
@@ -36,9 +36,22 @@ class KulinerService {
     var response = await request.send();
     return response.statusCode == 200;
   }
+
   Future<bool> deleteKuliner(String id) async {
-    var uri = Uri.parse('http://192.168.100.31/fluttertestkuliner/delete.php');
-    var response = await http.post(uri, body: {'id': id});
-    return response.statusCode == 200;
+    var url = Uri.parse('$baseUrl/delete.php');
+    var response = await http.post(url, body: {'id': id});
+    if (response.statusCode == 200) {
+      var responseData = json.decode(response.body);
+      if (responseData['pesan'] == 'sukses') {
+        print('Successfully deleted kuliner with id $id');
+        return true;
+      } else {
+        print('Failed to delete kuliner: ${responseData['error']}');
+        return false;
+      }
+    } else {
+      print('Failed to delete kuliner: ${response.body}');
+      return false;
+    }
   }
 }
