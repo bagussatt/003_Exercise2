@@ -13,4 +13,10 @@ class KulinerRepository {
   Future<bool> addKuliner(Kuliner kuliner) async {
     return kulinerService.addKuliner(kuliner);
   }
+   Future<bool> editKuliner(Kuliner kuliner) async {
+    return kulinerService.editKuliner(kuliner);
+  }
+   Future<bool> deleteKuliner(String id) async {
+    return kulinerService.deleteKuliner(id);
+  }
 }
