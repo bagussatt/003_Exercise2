@@ -14,8 +14,18 @@ class KulinerController {
   Future<bool> addKuliner(Kuliner kuliner) async {
     bool result = await kulinerRepository.addKuliner(kuliner);
     if (result) {
-      kulinerList.add(kuliner); // Opsional: Tambahkan ke list lokal jika perlu
+      kulinerList.add(kuliner); 
     }
     return result;
+  }
+  Future<bool> editKuliner(Kuliner kuliner) async {
+    bool result = await kulinerRepository.editKuliner(kuliner);
+    if (result) {
+      kulinerList.add(kuliner); 
+    }
+    return result;
+  }
+   Future<bool> deleteKuliner(String id) async {
+    return kulinerRepository.deleteKuliner(id);
   }
 }
