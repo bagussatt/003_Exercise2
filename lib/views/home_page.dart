@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kulinerjogja/controllers/kuliner_controller.dart';
 import 'package:kulinerjogja/repository/kuliner_repository.dart';
 import 'package:kulinerjogja/services/kuliner_service.dart';
+import 'package:kulinerjogja/views/add_kuliner_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -53,6 +54,16 @@ class _HomePageState extends State<HomePage> {
             return Center(child: CircularProgressIndicator());
           }
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddKulinerScreen()),
+          );
+        },
+        child: Icon(Icons.add),
+        tooltip: 'Tambah Kuliner',
       ),
     );
   }
