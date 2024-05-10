@@ -9,4 +9,8 @@ class KulinerRepository {
   Future<List<Kuliner>> fetchKuliner() async {
     return kulinerService.fetchKuliner();
   }
+
+  Future<bool> addKuliner(Kuliner kuliner) async {
+    return kulinerService.addKuliner(kuliner);
+  }
 }
