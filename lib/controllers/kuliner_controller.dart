@@ -10,4 +10,12 @@ class KulinerController {
   Future<void> fetchKuliner() async {
     kulinerList = await kulinerRepository.fetchKuliner();
   }
+
+  Future<bool> addKuliner(Kuliner kuliner) async {
+    bool result = await kulinerRepository.addKuliner(kuliner);
+    if (result) {
+      kulinerList.add(kuliner); // Opsional: Tambahkan ke list lokal jika perlu
+    }
+    return result;
+  }
 }
