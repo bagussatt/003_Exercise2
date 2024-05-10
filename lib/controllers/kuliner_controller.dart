@@ -25,7 +25,7 @@ class KulinerController {
     }
     return result;
   }
-   Future<bool> deleteKuliner(String id) async {
-    return kulinerRepository.deleteKuliner(id);
+  Future<bool> deleteKuliner(String id) async {
+    return await kulinerRepository.deleteKuliner(id);
   }
 }

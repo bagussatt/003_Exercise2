@@ -103,7 +103,7 @@ class _MapPageState extends State<MapPage> {
                     Placemark place =
                         placemarks[0]; // placemark is a list of places found
                     String fullAddress =
-                        '${place.name}, ${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+                        '${place.name}, ${place.street}, ${place.locality}, ${place.postalCode},';
                     widget.onLocationSelected(fullAddress);
                   } else {
                     widget.onLocationSelected("No address found");

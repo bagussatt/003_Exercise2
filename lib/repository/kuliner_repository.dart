@@ -17,6 +17,6 @@ class KulinerRepository {
     return kulinerService.editKuliner(kuliner);
   }
    Future<bool> deleteKuliner(String id) async {
-    return kulinerService.deleteKuliner(id);
+    return await kulinerService.deleteKuliner(id);
   }
 }
